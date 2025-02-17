@@ -23,10 +23,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@workspace/ui/components/sidebar";
-import { NavMain } from "@workspace/common/components/nav-main";
-import { NavProjects } from "@workspace/common/components/nav-projects";
-import { NavSecondary } from "@workspace/common/components/nav-secondary";
-import { NavUser } from "@workspace/common/components/nav-user";
+import { NavMain } from "@workspace/common/components/nav-main.js";
+import { NavProjects } from "@workspace/common/components/nav-projects.js";
+import { NavSecondary } from "@workspace/common/components/nav-secondary.js";
+import { NavUser } from "@workspace/common/components/nav-user.js";
 
 const data = {
   user: {
@@ -152,9 +152,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>): React.ReactNode {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

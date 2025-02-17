@@ -1,18 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@workspace/ui"],
+  transpilePackages: ["@workspace/ui", "@workspace/common"],
   async rewrites() {
     return [
       {
-        source: '/about',
+        source: "/about",
         destination: `http://localhost:3001/about`,
       },
       {
-        source: '/about/:path+',
+        source: "/about/:path+",
         destination: `http://localhost:3001/about/:path+`,
-      }
+      },
     ];
-  }
-}
+  },
+};
 
-export default nextConfig
+export default nextConfig;
