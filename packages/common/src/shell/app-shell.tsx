@@ -19,7 +19,7 @@ const AppShell = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>): React.ReactNode => {
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -1,9 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "@workspace/ui/globals.css";
-import { Providers } from "@/components/providers";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@workspace/common/auth";
+import ThemeProvider from "@workspace/common/providers/theme-provider";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -27,7 +27,7 @@ export default async function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
         <SessionProvider session={session}>
-          <Providers>{children}</Providers>
+          <ThemeProvider>{children}</ThemeProvider>
         </SessionProvider>
       </body>
     </html>

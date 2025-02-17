@@ -26,8 +26,9 @@
     },
     "exports": {
         "./auth": "./src/auth.ts",
-        "./app-shell": "./src/app-shell.tsx",
-        "./components/*": "./src/components/*.tsx"
+        "./app-shell": "./src/shell/app-shell.tsx",
+        "./components/*": "./src/components/*.tsx",
+        "./providers/*": "./src/providers/*.tsx"
     },
     "keywords": [],
     "author": "",
