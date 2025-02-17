@@ -26,9 +26,9 @@ importers:
 
   apps/about-app:
     dependencies:
-      '@workspace/auth':
+      '@workspace/common':
         specifier: workspace:*
-        version: link:../../packages/auth
+        version: link:../../packages/common
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -81,9 +81,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@workspace/auth':
+      '@workspace/common':
         specifier: workspace:*
-        version: link:../../packages/auth
+        version: link:../../packages/common
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -149,6 +149,52 @@ importers:
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      typescript:
+        specifier: ^5.6.3
+        version: 5.7.3
+
+  packages/common:
+    dependencies:
+      '@workspace/ui':
+        specifier: workspace:*
+        version: link:../ui
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
+      lucide-react:
+        specifier: 0.456.0
+        version: 0.456.0(react@19.0.0)
+      next-auth:
+        specifier: 5.0.0-beta.25
+        version: 5.0.0-beta.25(next@15.1.7)(react@19.0.0)
+      next-themes:
+        specifier: ^0.4.4
+        version: 0.4.4(react-dom@19.0.0)(react@19.0.0)
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.13.4
+      '@types/react':
+        specifier: 18.3.0
+        version: 18.3.0
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      postcss:
+        specifier: ^8.4.47
+        version: 8.5.2
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.17
       typescript:
         specifier: ^5.6.3
         version: 5.7.3

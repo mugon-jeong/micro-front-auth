@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { SessionProvider } from "next-auth/react";
-import { auth } from "@workspace/auth/auth";
+import { auth } from "@workspace/common/auth";
 
 const fontSans = Geist({
   subsets: ["latin"],

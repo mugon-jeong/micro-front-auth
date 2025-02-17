@@ -1,0 +1,35 @@
+{
+    "name": "@workspace/common",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "jwt-decode": "^4.0.0",
+        "next-auth": "5.0.0-beta.25",
+        "lucide-react": "0.456.0",
+        "next-themes": "^0.4.4",
+        "@workspace/ui": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/node": "^22.9.0",
+        "@types/react": "18.3.0",
+        "@types/react-dom": "18.3.1",
+        "@workspace/typescript-config": "workspace:*",
+        "typescript": "^5.6.3",
+        "postcss": "^8.4.47",
+        "tailwindcss": "^3.4.14"
+    },
+    "exports": {
+        "./auth": "./src/auth.ts",
+        "./app-shell": "./src/app-shell.tsx",
+        "./components/*": "./src/components/*.tsx"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

@@ -1,5 +1,5 @@
 import ky from "ky";
-import { auth } from "@workspace/auth/auth";
+import { auth } from "@workspace/common/auth";
 import { getSession } from "next-auth/react";
 
 const api = ky.create({
