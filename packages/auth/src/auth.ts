@@ -124,7 +124,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         if (!token.refreshToken) throw new TypeError("Missing refresh_token")
         try {
           console.log("refresh token")
-          const response = await fetch(`${process.env.API_BASE_URL}/core-service/api/v1/refresh`, {
+          const response = await fetch(`${process.env.API_BASE_URL}/core-service/api/v1/auth/refresh`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
