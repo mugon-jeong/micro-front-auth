@@ -2,6 +2,20 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import {jwtDecode, JwtPayload} from "jwt-decode"
 
+// The `JWT` interface can be found in the `next-auth/jwt` submodule
+import {JWT} from "next-auth/jwt"
+
+declare module "next-auth/jwt" {
+  /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
+  interface JWT {
+    id: string,
+    accessToken: string,
+    refreshToken: string
+    expires_at: number
+    error?: "RefreshTokenError"
+  }
+}
+
 declare module "next-auth" {
   /**
    * The shape of the user object returned in the OAuth providers' `profile` callback,
@@ -33,19 +47,6 @@ interface JwtType extends JwtPayload {
   id?: string
 }
 
-// The `JWT` interface can be found in the `next-auth/jwt` submodule
-import {JWT} from "next-auth/jwt"
-
-declare module "next-auth/jwt" {
-  /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
-  interface JWT {
-    accessToken: string,
-    refreshToken: string
-    expires_at: number
-    error?: "RefreshTokenError"
-  }
-}
-
 export const {handlers, signIn, signOut, auth} = NextAuth({
   pages: {
     signIn: "/auth/signin",
@@ -64,7 +65,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         console.log("credentials", credentials)
         const {username, password} = credentials
         // login
-        const response = await fetch("sign-in", {
+        const response = await fetch(`${process.env.API_BASE_URL}/core-service/api/v1/auth/sign-in`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -80,7 +81,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
 
         console.log("decode", decode)
 
-        if (!response.data) {
+        if (!response.data || decode.id === undefined || decode.exp === undefined) {
           // No user found, so this is their first attempt to login
           // Optionally, this is also the place you could do a user registration
           throw new Error("Invalid credentials.")
@@ -101,19 +102,31 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
     maxAge: 60 * 60 * 24 // 세션 만료 시간(sec)
   },
   callbacks: {
-    jwt: async ({token, user}) => {
-      console.log("about jwt callback 실행", token, user)
+    jwt: async ({token, user,session}) => {
+      console.log("jwt callback 실행 token", token)
+      console.log("jwt callback 실행 user", user)
+      console.log("jwt callback 실행 session", session)
       if (user) {
-        return {...token, ...user}
+        return {
+          id: user.id,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          expires_at: user.expires_at
+        }
       } else if (Date.now() < token.expires_at * 1000) {
-        return {...token}
+        return {
+          id: token.id,
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
+          expires_at: token.expires_at
+        }
       } else {
         if (!token.refreshToken) throw new TypeError("Missing refresh_token")
         try {
           console.log("refresh token")
-          const response = await fetch("refresh",{
-            method:"GET",
-            headers:{
+          const response = await fetch(`${process.env.API_BASE_URL}/core-service/api/v1/refresh`, {
+            method: "GET",
+            headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token.refreshToken}`
             }
@@ -121,10 +134,10 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
           console.log("refresh response", response)
           const decode = jwtDecode<JwtType>(response.data.accessToken)
           return {
-            id: decode.id,
+            id: decode.id || token.id,
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
-            expires_at: decode.exp
+            expires_at: decode.exp || token.expires_at
           }
         } catch (e) {
           console.error("RefreshTokenError", e)
@@ -132,16 +145,18 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
           return token
         }
       }
-    },
+    }
+    ,
     session: async ({session, token}) => {
       console.log("about session callback 실행", session, token)
       session.error = token.error
       session.token = token
       return session
     },
-    authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
-      return !!auth
-    },
+    authorized:
+        async ({auth}) => {
+          // Logged in users are authenticated, otherwise redirect to login page
+          return !!auth
+        },
   }
 })

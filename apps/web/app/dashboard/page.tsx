@@ -1,5 +1,5 @@
 import React from 'react';
-import {signOut} from "@/auth";
+import {signOut} from "@workspace/auth/auth";
 
 const Page = () => {
   return (

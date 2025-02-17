@@ -1,5 +1,5 @@
 'use server'
-import { auth, signIn, signOut } from '@/auth'
+import { auth, signIn, signOut } from '@workspace/auth/auth'
 
 export const signInWithCredentials = async (formData: FormData) => {
   await signIn('credentials', {

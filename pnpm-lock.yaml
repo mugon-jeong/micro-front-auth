@@ -26,6 +26,9 @@ importers:
 
   apps/about-app:
     dependencies:
+      '@workspace/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -78,6 +81,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@workspace/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -126,6 +132,22 @@ importers:
         version: 3.4.17
       typescript:
         specifier: ^5
+        version: 5.7.3
+
+  packages/auth:
+    dependencies:
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
+      next-auth:
+        specifier: 5.0.0-beta.25
+        version: 5.0.0-beta.25(next@15.1.7)(react@19.0.0)
+    devDependencies:
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.6.3
         version: 5.7.3
 
   packages/eslint-config:
