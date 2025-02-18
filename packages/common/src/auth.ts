@@ -60,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const { username, password } = credentials;
+        console.log("credentials", credentials);
         // login
         const response = await fetch(
           `${process.env.API_BASE_URL}/admin-service/api-admin/v1/auth/sign-in`,
@@ -74,6 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }),
           },
         ).then((res) => res.json());
+        console.log("response", response);
         const decode = jwtDecode<JwtType>(response.data.accessToken);
 
         if (

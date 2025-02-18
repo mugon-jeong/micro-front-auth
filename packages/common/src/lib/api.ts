@@ -21,14 +21,5 @@ export const api = ky.create({
         }
       },
     ],
-    afterResponse: [
-      async (request, options, response) => {
-        const session =
-          typeof window === "undefined" ? await auth() : await getSession();
-        if (response.status === 401 && session) {
-          window.location.href = "/auth/signin";
-        }
-      },
-    ],
   },
 });

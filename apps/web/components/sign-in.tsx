@@ -13,6 +13,7 @@ export function SignIn({ className, ...props }: React.ComponentProps<"div">) {
           <form
             className="p-6 md:p-8"
             action={async (formData) => {
+              "use server";
               await signInWithCredentials(formData);
             }}
           >
@@ -27,7 +28,8 @@ export function SignIn({ className, ...props }: React.ComponentProps<"div">) {
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
-                  type="test"
+                  name="username"
+                  type="text"
                   placeholder="username"
                   required
                 />
@@ -42,7 +44,7 @@ export function SignIn({ className, ...props }: React.ComponentProps<"div">) {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </div>
               <Button type="submit" className="w-full">
                 Login
