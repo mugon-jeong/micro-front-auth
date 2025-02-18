@@ -3,13 +3,24 @@ import { signInWithCredentials } from "@/actions/auth";
 import { Label } from "@workspace/ui/components/label";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
+import { redirect } from "@/i18n/routing";
+import { getLocale } from "next-intl/server";
+import { signIn } from "@workspace/common/auth";
 
-const SignInForm = () => {
+const SignInForm = async () => {
+  const locale = await getLocale();
   return (
     <form
       action={async (formData) => {
         "use server";
-        await signInWithCredentials(formData);
+        await signIn("credentials", {
+          username: formData.get("username") || "", // `'null'` 문자 방지
+          password: formData.get("password") || "",
+        });
+        redirect({
+          href: "/dashboard",
+          locale: "ko",
+        });
       }}
     >
       <div className="grid gap-2">

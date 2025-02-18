@@ -22,13 +22,11 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <SessionProvider session={session}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </SessionProvider>
+        {children}
       </body>
     </html>
   );

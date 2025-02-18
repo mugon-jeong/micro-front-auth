@@ -6,6 +6,6 @@ export const signInWithCredentials = async (formData: FormData) => {
   await signIn("credentials", {
     username: formData.get("username") || "", // `'null'` 문자 방지
     password: formData.get("password") || "",
-    redirectTo: "/dashboard",
+    redirect: false,
   });
 };

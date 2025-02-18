@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.6.0",
     "@workspace/common": "workspace:*",
     "@workspace/ui": "workspace:*",
     "accept-language": "^3.0.20",
@@ -19,8 +20,10 @@
     "jwt-decode": "^4.0.0",
     "ky": "^1.7.5",
     "lucide-react": "0.456.0",
+    "negotiator": "^1.0.0",
     "next": "^15.1.0",
     "next-auth": "5.0.0-beta.25",
+    "next-intl": "^3.26.4",
     "next-themes": "^0.4.3",
     "react": "^19.0.0",
     "react-cookie": "^7.2.2",
@@ -28,6 +31,7 @@
     "react-i18next": "^15.4.0"
   },
   "devDependencies": {
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^20",
     "@types/react": "18.3.0",
     "@types/react-dom": "18.3.1",

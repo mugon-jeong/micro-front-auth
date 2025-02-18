@@ -1,13 +1,11 @@
-"use client";
 import React from "react";
-import { LocaleTypes } from "@workspace/common/localization/settings";
-import { useTranslation } from "@workspace/common/localization/client";
+import { useTranslations } from "next-intl";
 
-const About = ({ locale }: { locale: LocaleTypes }) => {
-  const { t } = useTranslation(locale, "common");
+const About = () => {
+  const t = useTranslations("IndexPage");
   return (
     <div>
-      <h1>{t("about")}</h1>
+      <h1>{t("title")}</h1>
     </div>
   );
 };

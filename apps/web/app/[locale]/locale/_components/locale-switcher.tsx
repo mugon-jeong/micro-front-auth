@@ -1,31 +1,18 @@
-"use client";
-import React from "react";
-import { Trans } from "react-i18next";
-import { locales, LocaleTypes } from "@workspace/common/localization/settings";
-import Link from "next/link";
-import { useTranslation } from "@workspace/common/localization/client";
+import { useLocale, useTranslations } from "next-intl";
+import { routing } from "@/i18n/routing";
+import LocaleSwitcherSelect from "@/app/[locale]/locale/_components/locale-switcher-select";
 
-const LocaleSwitcher = ({ lng }: { lng: LocaleTypes }) => {
-  const { t } = useTranslation(lng, "footer");
+export default function LocaleSwitcher() {
+  const t = useTranslations("LocaleSwitcher");
+  const locale = useLocale();
+
   return (
-    <div>
-      <Trans i18nKey="languageSwitcher" t={t}>
-        Switch from <strong>{`${lng}`}</strong> to:{" "}
-      </Trans>
-      {Array.from(locales)
-        .filter((l) => lng !== l)
-        .map((l, index) => {
-          return (
-            <span key={l}>
-              {index > 0 && " or "}
-              <Link href={"/locale"} locale={l}>
-                {l}
-              </Link>
-            </span>
-          );
-        })}
-    </div>
+    <LocaleSwitcherSelect defaultValue={locale} label={t("label")}>
+      {routing.locales.map((cur) => (
+        <option key={cur} value={cur}>
+          {t("locale", { locale: cur })}
+        </option>
+      ))}
+    </LocaleSwitcherSelect>
   );
-};
-
-export default LocaleSwitcher;
+}
