@@ -13,7 +13,6 @@ export function SignIn({ className, ...props }: React.ComponentProps<"div">) {
           <form
             className="p-6 md:p-8"
             action={async (formData) => {
-              "use server";
               await signInWithCredentials(formData);
             }}
           >

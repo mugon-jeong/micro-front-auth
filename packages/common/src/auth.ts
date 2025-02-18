@@ -59,29 +59,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        let user = null;
-
-        console.log("credentials", credentials);
         const { username, password } = credentials;
         // login
         const response = await fetch(
-          `${process.env.API_BASE_URL}/core-service/api/v1/auth/sign-in`,
+          `${process.env.API_BASE_URL}/admin-service/api-admin/v1/auth/sign-in`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              memberId: "01098765432",
-              memberPw: "test001",
+              memberId: username,
+              memberPw: password,
             }),
           },
         ).then((res) => res.json());
-        console.log("response", response);
-
         const decode = jwtDecode<JwtType>(response.data.accessToken);
-
-        console.log("decode", decode);
 
         if (
           !response.data ||
@@ -108,10 +101,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 60 * 60 * 24, // 세션 만료 시간(sec)
   },
   callbacks: {
-    jwt: async ({ token, user, session }) => {
-      console.log("jwt callback 실행 token", token);
-      console.log("jwt callback 실행 user", user);
-      console.log("jwt callback 실행 session", session);
+    jwt: async ({ token, user }) => {
       if (user) {
         return {
           id: user.id || token.id,
@@ -131,7 +121,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           console.log("refresh token");
           const response = await fetch(
-            `${process.env.API_BASE_URL}/core-service/api/v1/auth/refresh`,
+            `${process.env.API_BASE_URL}/admin-service/api-admin/v1/auth/refresh`,
             {
               method: "GET",
               headers: {
@@ -140,7 +130,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               },
             },
           ).then((res) => res.json());
-          console.log("refresh response", response);
           const decode = jwtDecode<JwtType>(response.data.accessToken);
           return {
             id: decode.id || token.id,
@@ -149,14 +138,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             expires_at: decode.exp || token.expires_at,
           };
         } catch (e) {
-          console.error("RefreshTokenError", e);
           token.error = "RefreshTokenError";
           return token;
         }
       }
     },
     session: async ({ session, token }) => {
-      console.log("about session callback 실행", session, token);
       session.error = token.error;
       session.token = token;
       return session;
