@@ -4,14 +4,11 @@ import { Label } from "@workspace/ui/components/label";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { signInWithCredentials } from "@/actions/auth";
-import { redirect } from "@/i18n/routing";
-import { getLocale } from "next-intl/server";
 
 export async function SignIn({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const locale = await getLocale();
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -21,10 +18,6 @@ export async function SignIn({
             action={async (formData) => {
               "use server";
               await signInWithCredentials(formData);
-              redirect({
-                href: "/dashboard",
-                locale: locale,
-              });
             }}
           >
             <div className="flex flex-col gap-6">
