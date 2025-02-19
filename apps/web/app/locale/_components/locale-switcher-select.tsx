@@ -2,8 +2,8 @@
 
 import { ChangeEvent, ReactNode, useTransition } from "react";
 import { cn } from "@workspace/ui/lib/utils";
-import { setUserLocale } from "@/i18n/locale";
-import { Locale } from "@/i18n/config";
+import { Locale } from "@workspace/common/i18n/config";
+import { setUserLocale } from "@workspace/common/i18n/locale";
 
 type Props = {
   children: ReactNode;
