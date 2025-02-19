@@ -56,6 +56,11 @@ const data = {
       ],
     },
     {
+      title: "Abouts",
+      url: "/en/about",
+      icon: LifeBuoy,
+    },
+    {
       title: "Models",
       url: "#",
       icon: Bot,

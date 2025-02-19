@@ -8,15 +8,15 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/about",
-        destination: `http://localhost:3001/about`,
+        source: "/:locale/about",
+        destination: `http://localhost:3001/:locale/about`,
       },
       {
-        source: "/about/:path+",
-        destination: `http://localhost:3001/about/:path+`,
+        source: "/:locale/about/:path+",
+        destination: `http://localhost:3001/:locale/about/:path+`,
       },
       {
-        source: "/about-static/_next/:path+",
+        source: "/:locale/about-static/_next/:path+",
         destination: `http://localhost:3001/about-static/_next/:path+`,
       },
     ];

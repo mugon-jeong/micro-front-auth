@@ -1,31 +1,16 @@
-import { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { auth } from "@workspace/common/auth";
 
-const publicPages = [
-  "/",
-  "/auth/signin",
-  // (/secret requires auth)
-];
-
 const intlMiddleware = createMiddleware(routing);
-
-export default function middleware(req: NextRequest) {
-  const publicPathnameRegex = RegExp(
-    `^(/(${routing.locales.join("|")}))?(${publicPages
-      .flatMap((p) => (p === "/" ? ["", "/"] : p))
-      .join("|")})/?$`,
-    "i",
-  );
-  const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
-
-  if (isPublicPage) {
-    return intlMiddleware(req);
-  } else {
-    return (auth as any)(req);
+export default auth((req) => {
+  const { pathname } = req.nextUrl;
+  if (!req.auth && pathname !== "/auth/signin") {
+    return Response.redirect(new URL("/auth/signin", req.nextUrl.origin));
   }
-}
+
+  return intlMiddleware(req);
+});
 
 export const config = {
   matcher: [
