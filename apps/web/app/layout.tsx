@@ -3,22 +3,21 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@workspace/common/auth";
 import { dir } from "i18next";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import "@workspace/ui/globals.css";
+import { locales } from "@/i18n/config";
+import { getUserLocale } from "@/i18n/locale";
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const locale = await getUserLocale();
   setRequestLocale(locale);
   const session = await auth();
   const messages = await getMessages();

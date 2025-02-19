@@ -196,6 +196,9 @@ importers:
       next-auth:
         specifier: 5.0.0-beta.25
         version: 5.0.0-beta.25(next@15.1.7)(react@19.0.0)
+      next-intl:
+        specifier: ^3.26.4
+        version: 3.26.4(next@15.1.7)(react@19.0.0)
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@19.0.0)(react@19.0.0)

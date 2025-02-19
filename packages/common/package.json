@@ -16,6 +16,7 @@
         "lucide-react": "0.456.0",
         "next": "^15.1.0",
         "next-auth": "5.0.0-beta.25",
+        "next-intl": "^3.26.4",
         "next-themes": "^0.4.4",
         "react": "^19.0.0",
         "react-cookie": "^7.2.2",
@@ -37,7 +38,8 @@
         "./components/*": "./src/components/*.tsx",
         "./providers/*": "./src/providers/*.tsx",
         "./lib/*": "./src/lib/*.ts",
-        "./localization/*": "./src/localization/*.ts"
+        "./localization/*": "./src/localization/*.ts",
+        "./i18n/*": "./src/i18n/*.ts"
     },
     "keywords": [],
     "author": "",

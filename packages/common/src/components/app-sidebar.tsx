@@ -57,7 +57,12 @@ const data = {
     },
     {
       title: "Abouts",
-      url: "/en/about",
+      url: "/about",
+      icon: LifeBuoy,
+    },
+    {
+      title: "Locale",
+      url: "/locale",
       icon: LifeBuoy,
     },
     {

@@ -34,7 +34,11 @@ import {
 } from "@workspace/ui/components/sidebar";
 import { useTheme } from "next-themes";
 import * as React from "react";
+import { useTransition } from "react";
 import { signOut } from "next-auth/react";
+import { usePathname } from "next/navigation.js";
+import { setUserLocale } from "@workspace/common/i18n/locale.js";
+import { Locale } from "@workspace/common/i18n/config.js";
 
 export function NavUser({
   user,
@@ -47,7 +51,13 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
   const { setTheme } = useTheme();
+  const [isPending, startTransition] = useTransition();
 
+  function onSelectChange(value: string) {
+    startTransition(() => {
+      setUserLocale(value as Locale);
+    });
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -118,6 +128,14 @@ export function NavUser({
               <DropdownMenuItem onClick={() => setTheme("system")}>
                 <Settings2 />
                 System
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onSelectChange("ko")}>
+                <Settings2 />
+                Korean
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onSelectChange("en")}>
+                <Settings2 />
+                English
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

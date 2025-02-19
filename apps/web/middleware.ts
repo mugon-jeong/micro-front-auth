@@ -1,16 +1,16 @@
-import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
-import { auth } from "@workspace/common/auth";
-
-const intlMiddleware = createMiddleware(routing);
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
-  if (!req.auth && pathname !== "/auth/signin") {
-    return Response.redirect(new URL("/auth/signin", req.nextUrl.origin));
-  }
-
-  return intlMiddleware(req);
-});
+// import createMiddleware from "next-intl/middleware";
+// import { routing } from "./i18n/routing";
+// import { auth } from "@workspace/common/auth";
+export { auth as middleware } from "@workspace/common/auth";
+// const intlMiddleware = createMiddleware(routing);
+// export default auth((req) => {
+//   const { pathname } = req.nextUrl;
+//   if (!req.auth && pathname !== "/auth/signin") {
+//     return Response.redirect(new URL("/auth/signin", req.nextUrl.origin));
+//   }
+//
+//   return intlMiddleware(req);
+// });
 
 export const config = {
   matcher: [
