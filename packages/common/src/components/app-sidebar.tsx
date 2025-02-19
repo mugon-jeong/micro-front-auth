@@ -27,6 +27,7 @@ import { NavMain } from "@workspace/common/components/nav-main.js";
 import { NavProjects } from "@workspace/common/components/nav-projects.js";
 import { NavSecondary } from "@workspace/common/components/nav-secondary.js";
 import { NavUser } from "@workspace/common/components/nav-user.js";
+import { MAIN_MENUS } from "@workspace/common/constants/menu.js";
 
 const data = {
   user: {
@@ -183,7 +184,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={MAIN_MENUS} />
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

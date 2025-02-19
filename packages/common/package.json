@@ -39,7 +39,8 @@
         "./providers/*": "./src/providers/*.tsx",
         "./lib/*": "./src/lib/*.ts",
         "./localization/*": "./src/localization/*.ts",
-        "./i18n/*": "./src/i18n/*.ts"
+        "./i18n/*": "./src/i18n/*.ts",
+        "./i18n/messages/*": "./src/i18n/messages/*.json"
     },
     "keywords": [],
     "author": "",

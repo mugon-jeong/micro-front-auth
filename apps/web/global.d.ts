@@ -1,4 +1,4 @@
-import ko from "./messages/ko.json";
+import ko from "@workspace/common/i18n/messages/ko";
 
 type Messages = typeof ko;
 
