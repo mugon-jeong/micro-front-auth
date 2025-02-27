@@ -19,6 +19,18 @@ const nextConfig = {
         source: "/about-static/_next/:path+",
         destination: `http://localhost:3001/about-static/_next/:path+`,
       },
+      {
+        source: "/authority",
+        destination: `http://localhost:3002/authority`,
+      },
+      {
+        source: "/authority/:path+",
+        destination: `http://localhost:3002/authority/:path+`,
+      },
+      {
+        source: "/authority-static/_next/:path+",
+        destination: `http://localhost:3002/authority-static/_next/:path+`,
+      },
     ];
   },
 };

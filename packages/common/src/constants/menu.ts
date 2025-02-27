@@ -12,6 +12,12 @@ export const MAIN_MENUS = [
     title: "Authorizations",
     url: "/auth",
     icon: IdCard,
+    items: [
+      {
+        title: "Authority",
+        url: "/authority",
+      },
+    ],
   },
   {
     title: "Playground",
@@ -37,6 +43,12 @@ export const MAIN_MENUS = [
     title: "Abouts",
     url: "/about",
     icon: LifeBuoy,
+    items: [
+      {
+        title: "About",
+        url: "/about",
+      },
+    ],
   },
   {
     title: "Locale",

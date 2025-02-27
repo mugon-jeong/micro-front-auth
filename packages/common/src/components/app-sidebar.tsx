@@ -23,11 +23,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@workspace/ui/components/sidebar";
-import { NavMain } from "@workspace/common/components/nav-main.js";
-import { NavProjects } from "@workspace/common/components/nav-projects.js";
-import { NavSecondary } from "@workspace/common/components/nav-secondary.js";
-import { NavUser } from "@workspace/common/components/nav-user.js";
-import { MAIN_MENUS } from "@workspace/common/constants/menu.js";
+import { NavMain } from "@workspace/common/components/nav-main";
+import { NavProjects } from "@workspace/common/components/nav-projects";
+import { NavSecondary } from "@workspace/common/components/nav-secondary";
+import { NavUser } from "@workspace/common/components/nav-user";
+import { MAIN_MENUS } from "@workspace/common/constants/menu";
 
 const data = {
   user: {

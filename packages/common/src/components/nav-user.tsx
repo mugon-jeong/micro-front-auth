@@ -40,8 +40,8 @@ import { useTheme } from "next-themes";
 import * as React from "react";
 import { useTransition } from "react";
 import { signOut } from "next-auth/react";
-import { setUserLocale } from "@workspace/common/i18n/locale.js";
-import { Locale } from "@workspace/common/i18n/config.js";
+import { setUserLocale } from "@workspace/common/i18n/locale";
+import { Locale } from "@workspace/common/i18n/config";
 
 export function NavUser({
   user,

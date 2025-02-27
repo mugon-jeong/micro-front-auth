@@ -40,6 +40,7 @@
         "./providers/*": "./src/providers/*.tsx",
         "./lib/*": "./src/lib/*.ts",
         "./localization/*": "./src/localization/*.ts",
+        "./constants/*": "./src/constants/*.ts",
         "./i18n/*": "./src/i18n/*.ts",
         "./i18n/messages/*": "./src/i18n/messages/*.json"
     },
