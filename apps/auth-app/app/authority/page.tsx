@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
 import { Badge } from "@workspace/ui/components/badge";
 import AuthoritySection from "@/app/authority/_components/authority-section";
+import AuthorityCreateModal from "@/app/authority/_components/authority-create-modal";
 
 // Sample data
 const siteData = [
@@ -294,15 +295,12 @@ const siteData = [
     },
   },
 ];
-
 const Page = () => {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className={"flex items-center justify-between"}>
         <h2 className="text-2xl font-bold">권한 관리</h2>
-        <Button>
-          <Plus />
-        </Button>
+        <AuthorityCreateModal />
       </div>
       <section className="flex flex-1 flex-col gap-6">
         <AuthoritySection data={siteData} />
