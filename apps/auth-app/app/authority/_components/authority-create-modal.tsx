@@ -128,10 +128,6 @@ const AuthorityCreateModal = () => {
             <Button type="submit">저장</Button>
           </DialogFooter>
         </form>
-        {/*<Button className="absolute right-4 top-4" variant="ghost" size="icon" onClick={() => setDialogOpen(false)}>*/}
-        {/*  <X className="h-4 w-4" />*/}
-        {/*  <span className="sr-only">Close</span>*/}
-        {/*</Button>*/}
       </DialogContent>
     </Dialog>
   );
