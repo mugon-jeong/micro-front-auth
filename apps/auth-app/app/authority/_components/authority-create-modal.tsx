@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
 import { Button } from "@workspace/ui/components/button";
-import { Check, ChevronDown, ChevronsUpDown, Plus } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -26,12 +26,15 @@ import {
 } from "@workspace/ui/components/command";
 import { cn } from "@workspace/ui/lib/utils";
 import { Input } from "@workspace/ui/components/input";
+import { useTranslations } from "next-intl";
+
 const sites = [
   { label: "Main Site", value: "Main Site" },
   { label: "Secondary Site", value: "Secondary Sit" },
   { label: "Test Site", value: "Test Site" },
 ];
 const AuthorityCreateModal = () => {
+  const t = useTranslations("Authority.create");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -51,15 +54,13 @@ const AuthorityCreateModal = () => {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus className="mr-2 h-4 w-4" /> 새 항목 추가
+          <Plus className="mr-2 h-4 w-4" /> {t("title")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>새 항목 추가</DialogTitle>
-          <DialogDescription>
-            새로운 항목의 정보를 입력하세요. 모든 필드를 채워주세요.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("form.description")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
@@ -74,13 +75,16 @@ const AuthorityCreateModal = () => {
                   {value
                     ? sites.find((framework) => framework.value === value)
                         ?.label
-                    : "Select site..."}
+                    : t("form.select")}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[360px] p-0">
                 <Command>
-                  <CommandInput placeholder="Search site..." className="h-9" />
+                  <CommandInput
+                    placeholder={t("form.select")}
+                    className="h-9"
+                  />
                   <CommandList>
                     <CommandEmpty>No site found.</CommandEmpty>
                     <CommandGroup>
@@ -125,7 +129,7 @@ const AuthorityCreateModal = () => {
             />
           </div>
           <DialogFooter>
-            <Button type="submit">저장</Button>
+            <Button type="submit">{t("form.submit")}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
