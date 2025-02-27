@@ -93,6 +93,9 @@ importers:
       ky:
         specifier: ^1.7.5
         version: 1.7.5
+      lucide-react:
+        specifier: 0.475.0
+        version: 0.475.0(react@19.0.0)
       next:
         specifier: ^15.2.0
         version: 15.2.0(react-dom@19.0.0)(react@19.0.0)
