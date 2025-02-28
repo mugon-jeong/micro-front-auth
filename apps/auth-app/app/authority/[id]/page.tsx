@@ -14,10 +14,29 @@ import {
   CollapsibleTrigger,
 } from "@workspace/ui/components/collapsible";
 import { getTranslations } from "next-intl/server";
+import { getAllPermissions } from "../_actions/auth-action";
+import { RoleInfo, RolesResponse } from "../_actions/auth-action.type";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
   const t = await getTranslations("Authority.detail");
+  const { data } = await getAllPermissions();
+
+  const getAvailablePermissions = (
+    category: string,
+    currentPermissions: string[]
+  ) => {
+    const categoryRoles = data.roles[category] || [];
+    return categoryRoles.filter(
+      (roleInfo: RoleInfo) => !currentPermissions.includes(roleInfo.role)
+    );
+  };
 
   const mockData = {
     id,
@@ -74,19 +93,26 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   </CollapsibleTrigger>
                   <CollapsibleContent className="mt-2">
                     <div className="flex flex-wrap gap-2 p-4 bg-muted/50 rounded-lg">
-                      {(category === "core"
-                        ? ["manage:users", "admin:logs", "config:read"]
-                        : ["modify:all", "export:all", "import:all"]
-                      ).map((permission) => (
-                        <Badge
-                          key={permission}
-                          variant="outline"
-                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-                        >
-                          <Plus className="h-3 w-3 mr-1" />
-                          {permission}
-                        </Badge>
-                      ))}
+                      {getAvailablePermissions(category, permissions).map(
+                        (roleInfo: RoleInfo) => (
+                          <TooltipProvider key={roleInfo.role}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Badge
+                                  variant="outline"
+                                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                                >
+                                  <Plus className="h-3 w-3 mr-1" />
+                                  {roleInfo.role}
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{roleInfo.description}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )
+                      )}
                     </div>
                   </CollapsibleContent>
                 </Collapsible>

@@ -2,6 +2,11 @@ import ky from "ky";
 import { auth } from "@workspace/common/auth";
 import { getSession } from "next-auth/react";
 
+export interface ApiResponse<T> {
+  code: string;
+  data: T;
+}
+
 export const api = ky.create({
   prefixUrl: process.env.API_BASE_URL,
   headers: {
@@ -16,7 +21,7 @@ export const api = ky.create({
         if (session && session.token && session.token.accessToken) {
           request.headers.set(
             "Authorization",
-            `Bearer ${session.token.accessToken}`,
+            `Bearer ${session.token.accessToken}`
           );
         }
       },
