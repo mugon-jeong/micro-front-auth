@@ -15,6 +15,8 @@ import { Button } from "@workspace/ui/components/button";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@workspace/ui/components/input";
 import { Badge } from "@workspace/ui/components/badge";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Authority {
   id: string;
@@ -33,6 +35,7 @@ interface AuthoritySectionProps {
 }
 
 const AuthoritySection = ({ data }: AuthoritySectionProps) => {
+  const router = useRouter();
   const groupedData = React.useMemo(() => {
     const groups: Record<string, Authority[]> = {};
 
@@ -48,7 +51,7 @@ const AuthoritySection = ({ data }: AuthoritySectionProps) => {
 
   // State to store search terms for each section
   const [searchTerms, setSearchTerms] = React.useState<Record<string, string>>(
-    {},
+    {}
   );
 
   // Function to update search term for a specific section
@@ -62,7 +65,7 @@ const AuthoritySection = ({ data }: AuthoritySectionProps) => {
     return items.filter(
       (item) =>
         item.ko.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.en.toLowerCase().includes(searchTerm.toLowerCase()),
+        item.en.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
@@ -95,48 +98,50 @@ const AuthoritySection = ({ data }: AuthoritySectionProps) => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filterItems(items, searchTerms[siteId] || "").map((item) => (
-                  <Card key={item.id} className="shadow-sm">
-                    <CardHeader className="pb-2">
-                      <CardTitle>
-                        <Badge>{item.id}</Badge>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-muted-foreground">
-                            한국어:
-                          </span>
-                          <span>{item.ko}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-muted-foreground">
-                            English:
-                          </span>
-                          <span>{item.en}</span>
-                        </div>
-                        <div className="mt-2 pt-2 border-t">
-                          <div className="text-xs text-muted-foreground">
-                            Permissions:
-                          </div>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            <span
-                              key={"core"}
-                              className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full"
-                            >
-                              core:{item.permissions.core.length}
+                  <Link href={`/authority/${item.id}`}>
+                    <Card key={item.id} className="shadow-sm">
+                      <CardHeader className="pb-2">
+                        <CardTitle>
+                          <Badge>{item.id}</Badge>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="font-medium text-muted-foreground">
+                              한국어:
                             </span>
-                            <span
-                              key={"material"}
-                              className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full"
-                            >
-                              material:{item.permissions.material.length}
+                            <span>{item.ko}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="font-medium text-muted-foreground">
+                              English:
                             </span>
+                            <span>{item.en}</span>
+                          </div>
+                          <div className="mt-2 pt-2 border-t">
+                            <div className="text-xs text-muted-foreground">
+                              Permissions:
+                            </div>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              <span
+                                key={"core"}
+                                className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full"
+                              >
+                                core:{item.permissions.core.length}
+                              </span>
+                              <span
+                                key={"material"}
+                                className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full"
+                              >
+                                material:{item.permissions.material.length}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             </CollapsibleContent>

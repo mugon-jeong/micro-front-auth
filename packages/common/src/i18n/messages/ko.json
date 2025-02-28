@@ -1,15 +1,19 @@
 {
-    "Authority": {
-        "list": {
-            "title": "역할 목록"
-        },
-        "create": {
-            "title": "역할 생성",
-            "form": {
-                "select": "현장 선택",
-                "description": "새로운 항목의 정보를 입력하세요. 모든 필드를 채워주세요.",
-                "submit": "제출"
-            }
-        }
+  "Authority": {
+    "list": {
+      "title": "역할 목록"
+    },
+    "create": {
+      "title": "역할 생성",
+      "form": {
+        "select": "현장 선택",
+        "description": "새로운 항목의 정보를 입력하세요. 모든 필드를 채워주세요.",
+        "submit": "제출"
+      }
+    },
+    "detail": {
+      "title": "권한",
+      "addPermission": "추가 가능한 권한"
     }
+  }
 }

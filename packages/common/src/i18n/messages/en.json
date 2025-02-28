@@ -1,15 +1,19 @@
 {
-    "Authority": {
-        "list": {
-            "title": "Authority List"
-        },
-        "create": {
-            "title": "Create Authority",
-            "form": {
-                "select": "Select Site",
-                "description": "Please enter the information for the new item. Please fill in all fields.",
-                "submit": "Submit"
-            }
-        }
+  "Authority": {
+    "list": {
+      "title": "Authority List"
+    },
+    "create": {
+      "title": "Create Authority",
+      "form": {
+        "select": "Select Site",
+        "description": "Please enter the information for the new item. Please fill in all fields.",
+        "submit": "Submit"
+      }
+    },
+    "detail": {
+      "title": "Permission",
+      "addPermission": "Available Permissions"
     }
+  }
 }
