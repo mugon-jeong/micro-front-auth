@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.66.9",
+    "@tanstack/react-query-devtools": "^5.66.9",
     "@workspace/common": "workspace:*",
     "@workspace/ui": "workspace:*",
     "ky": "^1.7.5",
