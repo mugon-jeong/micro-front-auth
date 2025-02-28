@@ -7,8 +7,48 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface PageInfo<T> {
+  content: T[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      sorted: boolean;
+      unsorted: boolean;
+      empty: boolean;
+    };
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  first: boolean;
+  numberOfElements: number;
+  size: number;
+  number: number;
+  sort: {
+    sorted: boolean;
+    unsorted: boolean;
+    empty: boolean;
+  };
+  empty: boolean;
+}
+
+export interface ApiPageResponse<T> {
+  code: string;
+  data: PageInfo<T>;
+}
+
+// Usage example:
+// const response: ApiPageResponse<YourType> = await fetchData();
+
 export const api = ky.create({
-  prefixUrl: process.env.API_BASE_URL,
+  prefixUrl:
+    typeof window === "undefined"
+      ? process.env.API_BASE_URL
+      : process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "content-type": "application/json",
   },

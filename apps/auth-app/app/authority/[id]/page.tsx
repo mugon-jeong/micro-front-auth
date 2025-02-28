@@ -15,7 +15,7 @@ import {
 } from "@workspace/ui/components/collapsible";
 import { getTranslations } from "next-intl/server";
 import { getAllPermissions } from "../_actions/auth-action";
-import { RoleInfo, RolesResponse } from "../_actions/auth-action.type";
+import { RoleInfo } from "../_actions/auth-action.type";
 import {
   Tooltip,
   TooltipContent,
@@ -27,7 +27,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
   const t = await getTranslations("Authority.detail");
   const { data } = await getAllPermissions();
-
   const getAvailablePermissions = (
     category: string,
     currentPermissions: string[]

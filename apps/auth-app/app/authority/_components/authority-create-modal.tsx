@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,34 +12,50 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@workspace/ui/components/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@workspace/ui/components/command";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
 import { cn } from "@workspace/ui/lib/utils";
 import { Input } from "@workspace/ui/components/input";
 import { useTranslations } from "next-intl";
-
-const sites = [
-  { label: "Main Site", value: "Main Site" },
-  { label: "Secondary Site", value: "Secondary Sit" },
-  { label: "Test Site", value: "Test Site" },
-];
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { getAllSites } from "../_actions/site-action";
+import { useInView } from "react-intersection-observer";
 const AuthorityCreateModal = () => {
   const t = useTranslations("Authority.create");
+  const { ref, inView } = useInView();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newItemKo, setNewItemKo] = useState("");
   const [newItemEn, setNewItemEn] = useState("");
+  const queryClient = useQueryClient();
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const { status, data, error, isFetching, isPlaceholderData } = useQuery({
+    queryKey: ["getAllSites", page, search],
+    queryFn: () => getAllSites({ page: page, name: search }),
+    placeholderData: keepPreviousData,
+    staleTime: 5000,
+  });
+
+  useEffect(() => {
+    if (inView && !data?.data.last) {
+      setPage(page + 1);
+    }
+    if (!isPlaceholderData && data?.data.last) {
+      queryClient.prefetchQuery({
+        queryKey: ["getAllSites", page + 1, search],
+        queryFn: () => getAllSites({ page: page + 1, name: search }),
+      });
+    }
+  }, [data, isPlaceholderData, page, queryClient, inView]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -50,8 +66,25 @@ const AuthorityCreateModal = () => {
     setNewItemKo("");
     setNewItemEn("");
   };
+
+  const resetForm = () => {
+    setValue("");
+    setNewItemKo("");
+    setNewItemEn("");
+    setSearch("");
+    setPage(0);
+  };
+
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(open) => {
+        setDialogOpen(open);
+        if (!open) {
+          resetForm();
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" /> {t("title")}
@@ -64,8 +97,8 @@ const AuthorityCreateModal = () => {
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
+            <DropdownMenu open={open} onOpenChange={setOpen}>
+              <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
                   role="combobox"
@@ -73,48 +106,53 @@ const AuthorityCreateModal = () => {
                   className="w-full justify-between"
                 >
                   {value
-                    ? sites.find((framework) => framework.value === value)
-                        ?.label
+                    ? data?.data.content.find((site) => site.id === value)?.name
                     : t("form.select")}
-                  <ChevronsUpDown className="opacity-50" />
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[360px] p-0">
-                <Command>
-                  <CommandInput
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[360px] p-0">
+                <div className="p-2">
+                  <Input
                     placeholder={t("form.select")}
-                    className="h-9"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="h-8"
                   />
-                  <CommandList>
-                    <CommandEmpty>No site found.</CommandEmpty>
-                    <CommandGroup>
-                      {sites.map((site) => (
-                        <CommandItem
-                          key={site.value}
-                          value={site.value}
-                          onSelect={(currentValue) => {
-                            setValue(
-                              currentValue === value ? "" : currentValue,
-                            );
-                            setOpen(false);
-                          }}
-                        >
-                          {site.label}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              value === site.value
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                </div>
+                <div className="max-h-[200px] overflow-y-auto">
+                  {data?.data.content.length === 0 && (
+                    <div className="p-2 text-sm text-muted-foreground">
+                      No site found.
+                    </div>
+                  )}
+                  {data?.data.content.map((site) => (
+                    <DropdownMenuItem
+                      key={site.id}
+                      onSelect={() => {
+                        setValue(site.id === value ? "" : site.id);
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === site.id ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {site.name}
+                    </DropdownMenuItem>
+                  ))}
+                  <div ref={ref} className="h-4">
+                    {isFetching && (
+                      <div className="flex justify-center p-2">
+                        <span>Loading more...</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Input
               id="ko"
               placeholder="한국어"

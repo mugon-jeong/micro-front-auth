@@ -1,11 +1,9 @@
-import React from "react";
-import { Button } from "@workspace/ui/components/button";
-import { Plus } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { Badge } from "@workspace/ui/components/badge";
+import React, { Suspense } from "react";
 import AuthoritySection from "@/app/authority/_components/authority-section";
 import AuthorityCreateModal from "@/app/authority/_components/authority-create-modal";
 import { useTranslations } from "next-intl";
+import { getAllSites } from "./_actions/site-action";
+import { getTranslations } from "next-intl/server";
 
 // Sample data
 const siteData = [
@@ -296,8 +294,8 @@ const siteData = [
     },
   },
 ];
-const Page = () => {
-  const t = useTranslations("Authority.list");
+const Page = async () => {
+  const t = await getTranslations("Authority.list");
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className={"flex items-center justify-between"}>
