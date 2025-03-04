@@ -29,12 +29,20 @@ import {
 import { getAllSites } from "../_actions/site-action";
 import { useInView } from "react-intersection-observer";
 import { createRole } from "../_actions/auth-action";
-import { redirect, useRouter } from "next/navigation";
-const AuthorityCreateModal = () => {
+import { useRouter } from "next/navigation";
+interface AuthorityCreateModalProps {
+  children?: React.ReactNode;
+  siteId?: string;
+}
+
+const AuthorityCreateModal = ({
+  children,
+  siteId,
+}: AuthorityCreateModalProps) => {
   const t = useTranslations("Authority.create");
   const { ref, inView } = useInView();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(siteId || "");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newItemKo, setNewItemKo] = useState("");
   const [newItemEn, setNewItemEn] = useState("");
@@ -95,13 +103,18 @@ const AuthorityCreateModal = () => {
         setDialogOpen(open);
         if (!open) {
           resetForm();
+          if (siteId) {
+            setValue(siteId);
+          }
         }
       }}
     >
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" /> {t("title")}
-        </Button>
+        {children || (
+          <Button>
+            <Plus className="mr-2 h-4 w-4" /> {t("title")}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

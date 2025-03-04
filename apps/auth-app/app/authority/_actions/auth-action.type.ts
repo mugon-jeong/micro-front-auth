@@ -20,7 +20,7 @@ export interface Authority {
   ko: string;
   en: string;
   roles: {
-    [key: string]: RoleInfo[]; // For any additional role categories
+    [key: string]: string[]; // For any additional role categories
   };
 }
 

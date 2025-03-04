@@ -1,22 +1,18 @@
 "use client";
 import React, { use } from "react";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card";
-import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@workspace/ui/components/collapsible";
 import { Button } from "@workspace/ui/components/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import { Input } from "@workspace/ui/components/input";
-import { Badge } from "@workspace/ui/components/badge";
-import Link from "next/link";
 import { Authority } from "../_actions/auth-action.type";
+import { AuthorityCard } from "./authority-card";
+import { Card } from "@workspace/ui/components/card";
+import AuthorityCreateModal from "./authority-create-modal";
+import { useTranslations } from "next-intl";
 
 interface AuthoritySectionProps {
   data: Promise<Authority[]>;
@@ -24,6 +20,7 @@ interface AuthoritySectionProps {
 
 const AuthoritySection = ({ data }: AuthoritySectionProps) => {
   const allAuthorities = use(data);
+  const t = useTranslations("Authority.create");
   const groupedData = React.useMemo(() => {
     const groups: Record<string, Authority[]> = {};
 
@@ -77,58 +74,30 @@ const AuthoritySection = ({ data }: AuthoritySectionProps) => {
             </CollapsibleTrigger>
 
             <CollapsibleContent>
-              <div className="mb-4">
+              <div className="mb-4 flex gap-4 items-center">
                 <Input
                   placeholder="검색어를 입력하세요..."
                   value={searchTerms[siteId] || ""}
                   onChange={(e) => updateSearchTerm(siteId, e.target.value)}
+                  className="flex-1 h-11"
                 />
+                <AuthorityCreateModal siteId={siteId}>
+                  <Card className="shadow-sm flex items-center gap-2 px-4 h-11 border-dashed cursor-pointer hover:border-primary hover:bg-primary/5">
+                    <Plus className="h-5 w-5 text-muted-foreground" />
+                    <p className="text-muted-foreground whitespace-nowrap">
+                      {t("title")}
+                    </p>
+                  </Card>
+                </AuthorityCreateModal>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filterItems(items, searchTerms[siteId] || "").map(
                   (item, index) => (
-                    <Link href={`/authority/${item.id}`}>
-                      <Card key={item.id} className="shadow-sm">
-                        <CardHeader className="pb-2">
-                          <CardTitle>
-                            <Badge>{index}</Badge>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-2">
-                            <div className="flex justify-between">
-                              <span className="font-medium text-muted-foreground">
-                                한국어:
-                              </span>
-                              <span>{item.ko}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="font-medium text-muted-foreground">
-                                English:
-                              </span>
-                              <span>{item.en}</span>
-                            </div>
-                            <div className="mt-2 pt-2 border-t">
-                              <div className="text-xs text-muted-foreground">
-                                Permissions:
-                              </div>
-                              <div className="flex flex-wrap gap-1 mt-1">
-                                {Object.entries(item.roles).map(
-                                  ([key, roles]) => (
-                                    <span
-                                      key={key}
-                                      className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full"
-                                    >
-                                      {key}:{roles.length}
-                                    </span>
-                                  )
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
+                    <AuthorityCard
+                      key={item.id}
+                      authority={item}
+                      index={index}
+                    />
                   )
                 )}
               </div>
