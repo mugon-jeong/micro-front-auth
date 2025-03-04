@@ -13,7 +13,8 @@
     },
     "detail": {
       "title": "권한",
-      "addPermission": "추가 가능한 권한"
+      "addPermission": "추가 가능한 권한",
+      "searchPermission": "권한 검색"
     }
   }
 }

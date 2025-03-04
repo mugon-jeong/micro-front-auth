@@ -4,6 +4,7 @@ import AuthorityCreateModal from "@/app/authority/_components/authority-create-m
 import { useTranslations } from "next-intl";
 import { getAllSites } from "./_actions/site-action";
 import { getTranslations } from "next-intl/server";
+import { getAllAuthorities } from "./_actions/auth-action";
 
 // Sample data
 const siteData = [
@@ -296,6 +297,7 @@ const siteData = [
 ];
 const Page = async () => {
   const t = await getTranslations("Authority.list");
+  const authorities = getAllAuthorities().then((res) => res.data);
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className={"flex items-center justify-between"}>
@@ -303,7 +305,9 @@ const Page = async () => {
         <AuthorityCreateModal />
       </div>
       <section className="flex flex-1 flex-col gap-6">
-        <AuthoritySection data={siteData} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AuthoritySection data={authorities} />
+        </Suspense>
       </section>
     </div>
   );

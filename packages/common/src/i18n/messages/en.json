@@ -13,7 +13,8 @@
     },
     "detail": {
       "title": "Permission",
-      "addPermission": "Available Permissions"
+      "addPermission": "Available Permissions",
+      "searchPermission": "Search Permission"
     }
   }
 }

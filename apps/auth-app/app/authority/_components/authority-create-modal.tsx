@@ -22,11 +22,14 @@ import { Input } from "@workspace/ui/components/input";
 import { useTranslations } from "next-intl";
 import {
   keepPreviousData,
+  useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { getAllSites } from "../_actions/site-action";
 import { useInView } from "react-intersection-observer";
+import { createRole } from "../_actions/auth-action";
+import { redirect, useRouter } from "next/navigation";
 const AuthorityCreateModal = () => {
   const t = useTranslations("Authority.create");
   const { ref, inView } = useInView();
@@ -38,11 +41,22 @@ const AuthorityCreateModal = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const router = useRouter();
   const { status, data, error, isFetching, isPlaceholderData } = useQuery({
     queryKey: ["getAllSites", page, search],
     queryFn: () => getAllSites({ page: page, name: search }),
     placeholderData: keepPreviousData,
     staleTime: 5000,
+  });
+  const { mutate } = useMutation({
+    mutationFn: createRole,
+    onSuccess: (response) => {
+      setDialogOpen(false);
+      setValue("");
+      setNewItemKo("");
+      setNewItemEn("");
+      router.push(`/authority/${response.data.id}`);
+    },
   });
 
   useEffect(() => {
@@ -57,14 +71,13 @@ const AuthorityCreateModal = () => {
     }
   }, [data, isPlaceholderData, page, queryClient, inView]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Here you would typically add the new item to your data
-    console.log("New item:", { siteId: value, ko: newItemKo, en: newItemEn });
-    setDialogOpen(false);
-    setValue("");
-    setNewItemKo("");
-    setNewItemEn("");
+    mutate({
+      siteId: value,
+      ko: newItemKo,
+      en: newItemEn,
+    });
   };
 
   const resetForm = () => {
