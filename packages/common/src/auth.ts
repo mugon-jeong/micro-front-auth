@@ -73,7 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               memberId: username,
               memberPw: password,
             }),
-          },
+          }
         ).then((res) => res.json());
         console.log("response", response);
         const decode = jwtDecode<JwtType>(response.data.accessToken);
@@ -130,7 +130,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token.refreshToken}`,
               },
-            },
+            }
           ).then((res) => res.json());
           const decode = jwtDecode<JwtType>(response.data.accessToken);
           return {
