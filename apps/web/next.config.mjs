@@ -2,7 +2,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const isDev = process.env.NODE_ENV === "development";
-const authorityUrl = isDev ? "http://localhost:3002" : "http://auth-app:3000";
+const authorityUrl = isDev
+  ? "http://localhost:3002"
+  : process.env.NEXT_PUBLIC_AUTH_URL;
+console.log("env", process.env);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@workspace/ui", "@workspace/common"],

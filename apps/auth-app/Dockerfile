@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN pnpm add -g turbo
 COPY . .
-RUN turbo prune web --docker
+RUN turbo prune auth-app --docker
 
 FROM base AS installer
 RUN apk update
@@ -21,6 +21,11 @@ RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
 
+COPY ./.env .
+
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 RUN pnpm turbo build
 
 FROM base AS runner
@@ -30,8 +35,8 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/auth-app/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/auth-app/.next/static ./apps/auth-app/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/auth-app/public ./apps/auth-app/public
 
-CMD node apps/web/server.js
+CMD node apps/auth-app/server.js

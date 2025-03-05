@@ -9,6 +9,10 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN pnpm add -g turbo
 COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV TURBO_TELEMETRY_DISABLED=1
+
 RUN turbo prune web --docker
 
 FROM base AS installer
@@ -20,6 +24,13 @@ COPY --from=builder /app/out/json/ .
 RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
+
+COPY ./.env .
+
+ARG NEXT_PUBLIC_AUTH_URL
+ENV NEXT_PUBLIC_AUTH_URL=${NEXT_PUBLIC_AUTH_URL}
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 
 RUN pnpm turbo build
 

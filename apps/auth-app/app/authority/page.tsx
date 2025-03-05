@@ -9,6 +9,7 @@ import { Plus } from "lucide-react";
 const Page = async () => {
   const t = await getTranslations("Authority");
   const authorities = getAllAuthorities().then((res) => res.data);
+  console.log("env", process.env);
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className={"flex items-center justify-between"}>

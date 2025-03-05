@@ -44,11 +44,15 @@ export interface ApiPageResponse<T> {
 // Usage example:
 // const response: ApiPageResponse<YourType> = await fetchData();
 
+const isServer = typeof window === "undefined";
+
+const PREFIX_URL = (() => {
+  if (isServer) return process.env.API_BASE_URL;
+  return process.env.NEXT_PUBLIC_API_BASE_URL;
+})();
+
 export const api = ky.create({
-  prefixUrl:
-    typeof window === "undefined"
-      ? process.env.API_BASE_URL
-      : process.env.NEXT_PUBLIC_API_BASE_URL,
+  prefixUrl: PREFIX_URL,
   headers: {
     "content-type": "application/json",
   },
